@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { AppSearchDetail } from '#components';
 useSeoMeta({
   ogImage: '/icons/search.svg'
 })
@@ -19,5 +20,8 @@ useSeoMeta({
                 Sign in
             </button>
         </div>
+    </div>
+    <div>
+        <AppSearchDetail />
     </div>
 </template>
