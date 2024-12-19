@@ -9,3 +9,10 @@
     margin: 0 auto;
     padding: 0;
 }
+
+.max-1032-container{
+    max-width: 1032px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+}
