@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import LocationIcon from '~/public/icons/location.svg';
-import CrossCircleIcon from '~/public/icons/cross-circle.svg';
+import DateIcon from '~/public/icons/date.svg';
 
 // Reactive state for input focus
 import { ref, defineProps, defineEmits } from 'vue';
@@ -31,7 +30,7 @@ const clearValue = () => {
   <div class="input-container">
     <!-- Ikon Kiri -->
     <span class="icon left-icon">
-      <component :is="LocationIcon" :fill="isFocused ? '#1a73e8':'#757575'" class="w-6 h-6" />
+      <component :is="DateIcon" :fill="isFocused ? '#1a73e8':'#757575'" class="w-6 h-6" />
     </span>
 
     <!-- Input -->
@@ -48,17 +47,10 @@ const clearValue = () => {
       class="floating-label"
       :class="{ active: isFocused || modelValue }"
     >
-      Where are you going?
+      Check in - Check out
     </label>
 
-    <!-- Ikon Kanan -->
-    <span
-      v-if="modelValue"
-      class="icon right-icon clickable"
-      @click="clearValue"
-    >
-      <component :is="CrossCircleIcon" :fill="isFocused ? '#1a73e8':'#757575'" class="w-6 h-6" />
-    </span>
+  
   </div>
 </template>
 
@@ -68,15 +60,15 @@ const clearValue = () => {
   position: relative;
   display: flex;
   align-items: center;
-  width: 100%;
-  max-width: 400px;
-  margin: 20px auto;
+  width: 200px;
+  max-width:200px;
+  margin: 20px 4px;
 }
 
 /* Input */
 .input-container input {
-  width: 700px;
-  max-width: 700px;
+  width: 200px;
+  min-width: 200px;
   padding: 16px 40px; /* Ruang untuk ikon kiri dan kanan */
   font-size: 16px;
   border: 1px solid #ccc;

@@ -3,28 +3,9 @@ import LocationIcon from '~/public/icons/location.svg';
 import CrossCircleIcon from '~/public/icons/cross-circle.svg';
 
 // Reactive state for input focus
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref } from 'vue';
+const inputValue = ref('');
 const isFocused = ref(false);
-
-const props = defineProps({
-  modelValue:{
-    type:String,
-    default:''
-  }
-});
-
-const emit = defineEmits(['update:modelValue']);
-
-const updateValue = (event: Event) => {
-  const input = (event.target as HTMLInputElement).value;
-  emit('update:modelValue', input);
-}
-
-// Function to clear value when clicking the clear icon
-const clearValue = () => {
-  emit('update:modelValue', ''); // Emit empty string to clear the value
-  isFocused.value = false; // Reset the focus state
-}
 </script>
 
 <template>
@@ -36,26 +17,25 @@ const clearValue = () => {
 
     <!-- Input -->
     <input
-      :value="modelValue"
+      v-model="inputValue"
       type="text"
-      @input="updateValue"
       @focus="isFocused = true"
-      @blur="isFocused = modelValue !== ''"
+      @blur="isFocused = inputValue !== ''"
     />
 
     <!-- Label (Floating) -->
     <label
       class="floating-label"
-      :class="{ active: isFocused || modelValue }"
+      :class="{ active: isFocused || inputValue }"
     >
       Where are you going?
     </label>
 
     <!-- Ikon Kanan -->
     <span
-      v-if="modelValue"
+      v-if="inputValue"
       class="icon right-icon clickable"
-      @click="clearValue"
+      @click="inputValue = ''; isFocused = false"
     >
       <component :is="CrossCircleIcon" :fill="isFocused ? '#1a73e8':'#757575'" class="w-6 h-6" />
     </span>
@@ -75,9 +55,8 @@ const clearValue = () => {
 
 /* Input */
 .input-container input {
-  width: 700px;
-  max-width: 700px;
-  padding: 16px 40px; /* Ruang untuk ikon kiri dan kanan */
+  width: 100%;
+  padding: 16px 80px; /* Ruang untuk ikon kiri dan kanan */
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;

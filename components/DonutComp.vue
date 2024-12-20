@@ -23,7 +23,7 @@ const donutStyle = computed(() => {
 <template>
     <div class="donut-container">
       <div class="donut" :style="donutStyle">
-        <div class="percentage text-green-700">{{ percentage }}</div>
+        <div class="percentage text-green-600 text-xs">{{ percentage }}</div>
       </div>
     </div>
   </template>
@@ -60,7 +60,7 @@ const donutStyle = computed(() => {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
   }
   

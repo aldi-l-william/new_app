@@ -11,11 +11,11 @@
     });
 </script>
 <template>
-            <div class="flex justify-start items-center border-black border rounded-full px-2 py-1">
+            <div class="flex justify-start items-center border-gray-300 border rounded-full px-2 py-1">
                 <div class="mx-2">
                     <img :src="`/icons/${props.icon}`" alt="spons" class="w-4 h-4" />
                 </div>
-                <div>
+                <div class="text-sm">
                     {{ props.filter_name }}
                 </div>
             </div>
