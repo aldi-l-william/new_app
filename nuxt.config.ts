@@ -5,13 +5,17 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
   components: true,
+
   vite: {
     plugins: [require('vite-svg-loader')()]
   },
+
   postcss: {
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
     },
   },
+
+  modules: ['vue3-carousel-nuxt'],
 })

@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="flex justify-between">
-               <RoomMenuComp/>
+               <RoomMenuComp @copy="$emit('copy')"/>
             </div>
         </div>
         <div class="flex justify-start items-center text-green-500">

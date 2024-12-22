@@ -1,7 +1,7 @@
 <template>
         <div class="flex justify-between px-4">
             <div class="font-bold">Standard room</div>
-            <div class="rounded-full hover:bg-blue-100 px-3 text-blue-500 font-bold cursor-pointer">See details</div>
+            <div class="rounded-full hover:bg-blue-100 px-3 text-blue-500 font-bold cursor-pointer" @click="$emit('click')">See details</div>
         </div>
         <div class="flex justify-start items-center px-4">
             <div>

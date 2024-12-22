@@ -1,5 +1,8 @@
+<script setup lang="ts">
+   
+</script>
 <template>
-                <div class="relative">
+                <div class="relative" @click="$emit('click')">
                     <img src="https://i.travelapi.com/lodging/17000000/16500000/16494400/16494356/79ec53d2_b.jpg" class="rounded-t-md" />
                     <div class="flex justify-start items-center bg-white rounded absolute px-2 py-1 bottom-4 left-4">
                         <div class="mr-1">
