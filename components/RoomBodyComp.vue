@@ -71,6 +71,6 @@
         </div>
         <div class="flex justify-between">
             <div class="text-sm text-gray-400">* Member-only price, valid in app only</div>
-            <div class="text-blue-500 text-sm">{{ props.wisata_point }} points</div>
+            <div class="text-blue-500 text-sm">Collect {{ props.wisata_point }} points</div>
         </div>
 </template>

@@ -29,6 +29,6 @@
         <DonutComp :percentage="props.percentage" :size="props.size"/>
         <div class="mx-1 ml-2">{{ level(hotelStore.propertyHotel?.catalog?.review_rating) }}</div>
         <div class="mx-1">-</div>
-        <div class="mx-1">{{ hotelStore.propertyHotel?.catalog?.review_count }} reviews</div>
+        <div class="mx-1 text-xs sm:text-sm">{{ hotelStore.propertyHotel?.catalog?.review_count }} reviews</div>
     </div>
 </template>

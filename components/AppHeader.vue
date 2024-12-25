@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { AppSearchDetail } from '#components';
-import { inject } from 'vue';
-import type { HotelCollection } from '~/interface/Hotel';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { formatMonth } from '~/utils/global/queryUrl';
-
+import LeftIcon from '~/public/icons/backleft.svg';
 import { useHotelStore } from '~/stores/Hotel';
+
+const router = useRouter();
 
 const hotelStore = useHotelStore();
 
@@ -81,38 +81,47 @@ const formattedDate = computed(() => {
   return '';
 });
 
+const goBack = () => {
+    router.back();
+}
+
 
 </script>
 <template>
-            <div class="sticky top-0 bg-white z-20" :class="isScrolled ? 'shadow':''">
-                <div class="max-1032-container flex justify-between z-20  bg-white">
-                    <div class="py-2">
-                        <img src="https://project-exterior-technical-test-app.up.railway.app/img/logo.png" alt="Wisata App" class="w-[180px]"/>
+            <div class="sticky top-0 bg-white z-10" :class="isScrolled ? 'shadow':''">
+                <div class="sm:max-w-1032 w-full mx-auto p-0 flex justify-between items-center sm:items-start z-0 bg-white my-0">
+                    <div class="mb-2 sm:mb-0 py-2">
+                        <img src="https://project-exterior-technical-test-app.up.railway.app/img/logo.png" alt="Wisata App" class="w-[180px] hidden sm:block"/>
+                        <component :is="LeftIcon" :fill="'#3b82f6'" class="w-4 h-4 block sm:hidden" @click="goBack"/>
                     </div>
-                    <div class="py-2" >
-                        <button @click.stop="handleShowedSearchDetailClick" class="px-4 py-2 flex justify-center items-center bg-gray-100 hover:bg-gray-200 rounded w-[590px] max-w-screen-lg">
+                    <div class="sm:py-2">
+                        <button @click.stop="handleShowedSearchDetailClick" class="sm:px-4 py-3 sm:py-2 flex justify-center items-center bg-gray-300 hover:bg-gray-400 rounded w-[400px] max-w-[200px] sm:w-[590px] sm:max-w-screen-lg text-sm sm:text-normal font-semibold">
                         <img src="/icons/search.svg" alt="icon" class="w-[15px] mx-2"/>
-                        <span class="mx-1">{{ hotelStore.propertyHotel?.name || 'No Data' }} </span> <span class="mx-1">-</span> <span class="mx-2">{{ formattedDate }}</span>
+                        <span class="mx-1">
+                          <!-- Mobile: Hanya tampilkan huruf pertama, Desktop: tampilkan seluruh nama -->
+                          <span class="sm:hidden">{{ hotelStore.propertyHotel?.name?.charAt(0) || 'N' }}</span>
+                          <span class="hidden sm:inline">{{ hotelStore.propertyHotel?.name || 'No Data' }}</span>
+                        </span> <span class="mx-1">-</span> <span class="mx-2">{{ formattedDate }}</span>
                         </button>
                     </div>
-                    <div class="py-2">
-                        <button class="bg-blue-600 text-white px-3 py-2 rounded">
+                    <div class="sm:py-2">
+                        <button class="bg-blue-500 text-white w-20 mx-2 px-3 py-[10px] sm:px-3 sm:py-2 rounded">
                             Sign in
                         </button>
                     </div>
                 </div>
-                <!-- <div class="z-20 sticky top-0" :class="isShowedSearchDetail ? 'visible':'collapse'">
+                <!-- <div class="z-0 sticky top-0" :class="isShowedSearchDetail ? 'visible':'collapse'">
                    <AppSearchDetail :class="isShowedSearchDetail ? 'visible':'collapse'"/>
                 </div> -->
                 <transition name="fade" @before-enter="handleEnter" @before-leave="handleBeforeLeave">
-                  <div v-if="isShowedSearchDetail" class="z-20 sticky top-0">
+                  <div v-if="isShowedSearchDetail" class="z-0 sticky top-0">
                     <AppSearchDetail />
                   </div>
                 </transition>
             </div>
             
-            <!-- <div class="w-screen h-screen fixed z-10 " :class="isShowedSearchDetail ? 'bg-opacity-40 bg-black visible':'invisible'" @click="handleOutsideSearchDetailClick">
+            <div class="w-screen h-screen fixed z-0 " :class="isShowedSearchDetail ? 'bg-opacity-40 bg-black visible':'invisible'" @click="handleOutsideSearchDetailClick">
 
-            </div> -->
+            </div>
 
 </template>

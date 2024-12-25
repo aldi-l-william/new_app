@@ -16,3 +16,10 @@
     margin: 0 auto;
     padding: 0;
 }
+
+.max-320-container{
+    max-width: 320px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+}

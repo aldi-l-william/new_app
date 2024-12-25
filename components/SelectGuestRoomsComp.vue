@@ -27,7 +27,7 @@ const clearValue = () => {
 </script>
 
 <template>
-  <div class="input-container">
+  <div class="relative flex items-center">
     <!-- Ikon Kiri -->
     <span class="icon left-icon">
       <component :is="PeopleIcon" :fill="isFocused ? '#1a73e8':'#757575'" class="w-6 h-6" />
@@ -40,6 +40,7 @@ const clearValue = () => {
       @input="updateValue"
       @focus="isFocused = true"
       @blur="isFocused = modelValue !== ''"
+      class="border border-gray-300 px-[40px] py-3 w-full rounded"
     />
 
     <!-- Label (Floating) -->
@@ -64,7 +65,7 @@ const clearValue = () => {
 }
 
 /* Input */
-.input-container input {
+.input-container{
   width: 100%;
   padding: 16px 40px; /* Ruang untuk ikon kiri dan kanan */
   font-size: 16px;

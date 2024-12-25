@@ -9,7 +9,13 @@ export default {
     "./error.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+      maxWidth:{
+        '1032':'1032px',
+        '320':'320px',
+        '425':'425px'
+      }
+    },
   },
   plugins: [],
 }

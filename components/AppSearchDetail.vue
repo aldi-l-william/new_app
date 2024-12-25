@@ -218,29 +218,29 @@
 </script>
 <template>
     <div class="flex justify-center">
-        <div class="max-1032-container rounded-b-lg flex justify-between absolute bg-white shadow-md">
-       <div class="mr-2 my-4 mx-4 relative">
-           <InputSearchCustomComp @click="handleInputClick" v-model="keyword"/>
-           <DropDownSelectPlaceComp v-if="activeDropdown === 'search'" :informasi_tempat="location" @getData="getPropertyData"/>
-       </div>
-       <div class="mr-2 my-4 relative">
-           <InputDateCheckinCheckoutComp @click="handleInputDateClick" v-model="selectedDate"/>
-           <SelectDateDropDownComp v-if="activeDropdown === 'date'" @closeCalendar="handleCloseCalendar" @selectedDate="handleSelectedDate"/>
-       </div>
-       <div class="mr-2 my-4 relative">
-           <SelectGuestRoomsComp @click="handleInputGuestClick" v-model="selectedCounter" />
-           <SelectCountDropDownComp v-if="activeDropdown === 'guest'" @getCount="handleEmitFromChild"/>
-       </div>
-       <div class="my-[36px] mx-4">
-          <button @click="handleQueryRoom" class="flex justify-start items-center bg-blue-500 text-white px-6 py-4 rounded-md">
-            <div class="mr-2">
-                <component :is="SearchIcon" :fill="'white'" />
+        <div class="p-4 grid grid-cols-12 gap-2 max-w-425 sm:max-w-1032 w-full mx-auto p-0 rounded-b-lg bg-white shadow-md absolute">
+            <div class="col-span-12 sm:col-span-5 sm:relative">
+                <InputSearchCustomComp @click="handleInputClick" v-model="keyword"/>
+                <DropDownSelectPlaceComp v-if="activeDropdown === 'search'" :informasi_tempat="location" @getData="getPropertyData"/>
             </div>
-            <div>
-                Search
+            <div class="col-span-12 sm:col-span-3 sm:relative">
+                <InputDateCheckinCheckoutComp @click="handleInputDateClick" v-model="selectedDate"/>
+                <SelectDateDropDownComp v-if="activeDropdown === 'date'" @closeCalendar="handleCloseCalendar" @selectedDate="handleSelectedDate"/>
             </div>
-          </button>
-       </div>  
+            <div class="col-span-12 sm:col-span-3 sm:relative">
+                <SelectGuestRoomsComp @click="handleInputGuestClick" v-model="selectedCounter" />
+                <SelectCountDropDownComp v-if="activeDropdown === 'guest'" @getCount="handleEmitFromChild"/>
+            </div>
+            <div class="col-span-12 sm:col-span-1 w-full">
+                <button @click="handleQueryRoom" class="flex justify-center sm:justify-between items-center bg-blue-500 text-white px-1 py-[14px] rounded-md w-full text-sm">
+                    <div>
+                        <component :is="SearchIcon" :fill="'white'" class="w-4 h-4" />
+                    </div>
+                    <div class="ml-2">
+                        Search
+                    </div>
+                </button>
+            </div>  
         </div>
     </div>  
 </template>

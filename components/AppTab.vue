@@ -45,7 +45,9 @@
 </script>
 
 <template>
-  <div class="max-1032-container flex justify-center items-center">
+  <!-- Versi Desktop -->
+  <div class="hidden sm:block">
+    <div class="max-w-1032 mx-auto w-full p-0 flex justify-center items-center">
     <!-- Tab Deals -->
     <div
       class="flex justify-normal py-4 px-2 items-center"
@@ -120,7 +122,80 @@
         INFO
       </nuxt-link>
     </div>
+    </div>
   </div>
+  
+  <!-- Versi Mobile -->
+  <div class="block sm:hidden">
+    <div class=" max-w-425 w-full mx-auto p-0 flex justify-between m-4">
+    <!-- Tab Deals Versi Mobile -->
+    <div
+      class="flex justify-center w-full p-4"
+      :class="isActiveTab('deals') ? 'border-b-2 border-blue-500' : ''"
+    >
+      <nuxt-link
+        :to="{
+          path: `/stay/${route.params.slug}`,
+          query: {
+            checkin: props.checkin,
+            checkout: props.checkout,
+            guest_per_room: props.guest_per_room,
+            number_of_room: props.number_of_room
+          }
+        }"
+        class="mx-2"
+        :class="isActiveTab('deals') ? 'text-blue-500' : 'text-gray-500'"
+      >
+          <component :is="BadgeIcon" :fill="isActiveTab('deals') ? '#3B82F6' : ''" />
+      </nuxt-link>
+    </div>
+
+    <!-- Tab Photos Versi Mobile -->
+    <div
+      class="flex justify-center w-full p-4"
+      :class="isActiveTab('photos') ? 'border-b-2 border-blue-500' : ''"
+    >
+      <nuxt-link
+        :to="{
+          path: `/stay/${route.params.slug}/photos`,
+          query: {
+            checkin: props.checkin,
+            checkout: props.checkout,
+            guest_per_room: props.guest_per_room,
+            number_of_room: props.number_of_room
+          }
+        }"
+        class="mx-4"
+        :class="isActiveTab('photos') ? 'text-blue-500' : 'text-gray-500'"
+      >
+        <component :is="BoxIcon" :fill="isActiveTab('photos') ? '#3B82F6' : ''" />
+      </nuxt-link>
+    </div>
+
+    <!-- Tab Info Versi Mobile -->
+    <div
+      class="flex justify-center w-full p-4"
+      :class="isActiveTab('info') ? 'border-b-2 border-blue-500' : ''"
+    >
+      <nuxt-link
+        :to="{
+          path: `/stay/${route.params.slug}/info`,
+          query: {
+            checkin: props.checkin,
+            checkout: props.checkout,
+            guest_per_room: props.guest_per_room,
+            number_of_room: props.number_of_room
+          }
+        }"
+        class="mx-4"
+        :class="isActiveTab('info') ? 'text-blue-500' : 'text-gray-500'"
+      >
+        <component :is="InfoIcon" :fill="isActiveTab('info') ? '#3B82F6' : ''" />
+      </nuxt-link>
+    </div>
+    </div>
+  </div>
+  
 </template>
 <style scoped>
 
