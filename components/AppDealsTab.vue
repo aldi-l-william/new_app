@@ -346,7 +346,7 @@ import { position } from 'html2canvas/dist/types/css/property-descriptors/positi
                             @screenshot="handleShowPopUpScreenshotAndCopy('Image', index)" 
                             @seeActions="toggleModal(index)"/>
                             <ModalPopUpMiniScreenshotAndCopyComp v-if="modals[index]"
-                            :index="index" @copy="handleShowPopUpScreenshotAndCopy('Text', index)" @screenshot="handleShowPopUpScreenshotAndCopy('Image', index)" class="absolute right-6"/>      
+                            :index="index" @copy="handleShowPopUpScreenshotAndCopy('Text', index)" @screenshot="handleShowPopUpScreenshotAndCopy('Image', index)" class="absolute right-6 top-12"/>      
                         </div>           
                 </div>
                 <div class="col-span-12 bg-black fixed text-3xl z-10 top-0 inset-0 opacity-30" v-if="isShowPopUpModal[index] || isShowPopUpModalScreenshotAndCopy[index]">
