@@ -88,8 +88,8 @@ const goBack = () => {
 
 </script>
 <template>
-            <div class="sticky top-0 bg-white z-10" :class="isScrolled ? 'shadow':''">
-                <div class="sm:max-w-1032 w-full mx-auto p-0 flex justify-between items-center sm:items-start z-0 bg-white my-0">
+            <div class="sticky top-0 bg-white" :class="isScrolled ? (hotelStore.zIndexAppHeader ? 'shadow z-10':'shadow z-20'):'z-20'">
+                <div class="sticky top-0 sm:max-w-1032 w-full mx-auto p-0 flex justify-between items-center sm:items-start bg-white">
                     <div class="mb-2 sm:mb-0 py-2">
                         <img src="https://project-exterior-technical-test-app.up.railway.app/img/logo.png" alt="Wisata App" class="w-[180px] hidden sm:block"/>
                         <component :is="LeftIcon" :fill="'#3b82f6'" class="w-4 h-4 block sm:hidden" @click="goBack"/>
@@ -120,7 +120,7 @@ const goBack = () => {
                 </transition>
             </div>
             
-            <div class="w-screen h-screen fixed z-0 " :class="isShowedSearchDetail ? 'bg-opacity-40 bg-black visible':'invisible'" @click="handleOutsideSearchDetailClick">
+            <div class="w-screen h-screen fixed z-0" :class="isShowedSearchDetail ? 'bg-opacity-40 bg-black visible':'invisible'" @click="handleOutsideSearchDetailClick">
 
             </div>
 

@@ -94,8 +94,8 @@
                   <div class="font-semibold">Room Detail</div>
               </div>
         </div>
-        <div class="overflow-y-auto h-screen">
-          <div class="relative z-20">
+        <div class="overflow-y-auto h-screen z-30">
+          <div class="relative">
              <CarouselMobileComp :index="props.index"/>
           </div>
           <div class="bg-white border border-gray-300 p-4 rounded-br-xl">

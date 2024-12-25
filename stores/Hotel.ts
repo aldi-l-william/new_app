@@ -12,7 +12,8 @@ export const useHotelStore = defineStore('counter', {
         number_of_room:1,
         slug:'',
         propertyHotel:{},
-        propertyDetailHotel:{}
+        propertyDetailHotel:{},
+        zIndexAppHeader:false
       }
   },
   

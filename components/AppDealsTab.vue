@@ -41,6 +41,7 @@ import { position } from 'html2canvas/dist/types/css/property-descriptors/positi
     const isActiveTab = ref<string>('Text');
     const handleShowPopUp = (index:number) => {
         isShowPopUpModal.value[index] = true;
+        hotelStore.zIndexAppHeader = true;
         document.body.classList.add('no-scroll');   
     }
 
@@ -48,6 +49,7 @@ import { position } from 'html2canvas/dist/types/css/property-descriptors/positi
 
     const handleClosePopUp = (index:number) => {
         isShowPopUpModal.value[index] = false;
+        hotelStore.zIndexAppHeader = false;
         // Aktifkan kembali scroll saat modal ditutup
         document.body.classList.remove('no-scroll');
     }
