@@ -289,7 +289,7 @@ import { position } from 'html2canvas/dist/types/css/property-descriptors/positi
                 </div>
                 <div class="col-span-8 border border-gray rounded">
                         <div class="border-gray border-b py-4">
-                            <RoomTitleComp @click="handleShowPopUp" :room_name="item.room_name" :room_bed_groups="item.room_bed_groups" :room_size_sqm="item.room_size_sqm"/>
+                            <RoomTitleComp @click="handleShowPopUp(index)" :room_name="item.room_name" :room_bed_groups="item.room_bed_groups" :room_size_sqm="item.room_size_sqm"/>
                         </div>
                         <div class="px-4 py-4 relative border-b"> 
                             <RoomBodyComp
@@ -326,7 +326,7 @@ import { position } from 'html2canvas/dist/types/css/property-descriptors/positi
                 <div class="col-span-12 rounded relative">
                         <div class="border-gray border-b py-4" ref="trackedDiv" :class="isFixed[index] ? 'sticky bg-white top-[59px] z-10':'relative'">
                             <RoomTitleComp 
-                            @click="handleShowPopUp" 
+                            @click="handleShowPopUp(index)" 
                             :room_name="item.room_name" 
                             :room_bed_groups="item.room_bed_groups" 
                             :room_size_sqm="item.room_size_sqm"/>
