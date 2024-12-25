@@ -3,9 +3,9 @@
    const hotelStore = useHotelStore();
 </script>
 <template>
-     <div>
+     <div class="px-3">
         <div class="text-2xl font-semibold mb-4">Checkin</div>
-        <ul class="list-disc mb-12">
+        <ul class="sm:list-disc mb-12">
            
            <li>Begin Time: {{ hotelStore.propertyHotel?.important_info?.checkin?.begin_time }}</li>
            <li>End Time: {{ hotelStore.propertyHotel?.important_info?.checkin?.end_time }}</li>
@@ -18,19 +18,19 @@
         </ul>
 
         <div class="text-2xl font-semibold mb-4">Checkout</div>
-        <ul class="list-disc mb-12">  
+        <ul class="sm:list-disc mb-12">  
            <li>Time: {{ hotelStore.propertyHotel?.important_info?.checkout?.time }}</li>
         </ul>
 
         <div class="text-2xl font-semibold mb-4">Fees: </div>
-        <ul class="list-disc mb-12">
+        <ul class="sm:list-disc mb-12">
            <li><span v-html="hotelStore.propertyHotel?.important_info?.fees?.optional"></span></li>
         </ul>
 
         <div class="text-2xl font-semibold mb-4">
              Policies
         </div>
-        <ul class="list-disc mb-12">
+        <ul class="sm:list-disc mb-12">
           <li>Know before you go: <span v-html="hotelStore.propertyHotel?.important_info?.policies.know_before_you_go"></span></li>
         </ul>        
      </div>  

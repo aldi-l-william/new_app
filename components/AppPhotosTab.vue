@@ -28,9 +28,9 @@
 </script>
 <template>
      <div class="max-1032-container">
-          <div class="grid grid-cols-12 gap-6 my-4">
+          <div class="grid grid-cols-12 sm:gap-6 my-4">
                <div v-for="(item, index) in hotelStore.propertyHotel.image" class="col-span-4 cursor-pointer hover:opacity-80" @click="showCarousel(index)">
-                    <img :src="item?.url?.lg ||'https://project-exterior-technical-test-app.up.railway.app/img/fallback-global.png'" class="h-[325px] w-[325px]"/>
+                    <img :src="item?.url?.lg ||'https://project-exterior-technical-test-app.up.railway.app/img/fallback-global.png'" class="h-[110px] w-[110px] sm:h-[325px] sm:w-[325px]"/>
                </div>
           </div>
           <div>

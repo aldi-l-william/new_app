@@ -47,7 +47,6 @@ import { position } from 'html2canvas/dist/types/css/property-descriptors/positi
     
 
     const handleClosePopUp = (index:number) => {
-        alert("testing");
         isShowPopUpModal.value[index] = false;
         // Aktifkan kembali scroll saat modal ditutup
         document.body.classList.remove('no-scroll');
@@ -360,6 +359,21 @@ import { position } from 'html2canvas/dist/types/css/property-descriptors/positi
                         </div>
                     </transition> 
                 </div>
+                <div :class="isShowPopUpModalScreenshotAndCopy[index] ? 'bg-opacity-50 z-40 fixed inset-0':''">
+                        <transition name="fade" @before-enter="handleEnter" @before-leave="handleBeforeLeave">
+                            <div v-if="isShowPopUpModalScreenshotAndCopy[index]" class="fixed inset-0">
+                                <ModalPopUpScreenshotAndCopyComp
+                                :index="index" 
+                                :room_name="item.room_name"
+                                :room_bed_groups="item.room_bed_groups"
+                                :room_size_sqm="item.room_size_sqm"
+                                :cancel_policy_description="item.cancel_policy_description"
+                                :rate_nightly="item.rate_nightly"
+                                :price_total="item.price_total"  
+                                :is-active="isActiveTab" @close="handleClosePopUpScreenshotAndCopy(index)"/>
+                            </div>
+                        </transition> 
+                    </div>
         </div>
     </div>
     

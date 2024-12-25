@@ -39,8 +39,6 @@
       }
    })
 
-   console.log(props.index, "indexku")
-
    const isActiveAddress = ref(true);
    const isHotelReviews = ref(true);
    const isRoomInfo = ref(true);
@@ -48,8 +46,11 @@
    
 
    const zoomer = ref<PinchScrollZoomExposed>();
+   const zoomerMobile = ref<PinchScrollZoomExposed>();
    const maxScale = ref<number>(1.2);
    const minScale = ref<number>(1);
+   const maxScaleMobile = ref<number>(1.2);
+   const minScaleMobile = ref<number>(0.6);
 
 // Fungsi untuk menetapkan nilai default
 const setDefaultZoom = () => {
@@ -62,12 +63,18 @@ const setDefaultZoom = () => {
          translateY: 0
       });
   }
+
+  if (zoomerMobile.value) {
+      zoomerMobile.value?.setData({
+         scale: 1,
+         originX: 400,
+         originY: 380,
+         translateX: -90,
+         translateY: -158
+      });
+  }
 };
 
-// Memastikan setDefaultZoom dijalankan setelah komponen siap
-onMounted(() => {
-  setDefaultZoom();
-});
 
 const state = ref({
     eventName: '',
@@ -109,6 +116,14 @@ const defaultValue = {
   translateY: 0,
 };
 
+// Nilai default
+const defaultValueMobile = {
+  scale: 0.6,
+  originX: 400,
+  originY: 380,
+  translateX: -90,
+  translateY: -158
+};
 // Fungsi untuk menambahkan nilai scale, translateX, dan translateY
 const addScale = () => {
   if (clickCount.value < 2) {
@@ -126,6 +141,27 @@ const addScale = () => {
       originY: defaultValue.originY,
       translateX: defaultValue.translateX,
       translateY: defaultValue.translateY,
+    });
+  }
+};
+
+// Fungsi untuk menambahkan nilai scale, translateX, dan translateY
+const addScaleMobile = () => {
+  if (clickCount.value < 6) {
+    clickCount.value++; // Increment click count
+
+    // Update defaultValue dengan menambah scale, translateX, dan translateY
+    defaultValueMobile.scale += 0.1;
+    defaultValueMobile.translateX += 20;
+    defaultValueMobile.translateY += 20;
+
+    // Terapkan perubahan pada zoomer
+    zoomerMobile.value?.setData({
+      scale: defaultValueMobile.scale,
+      originX: defaultValueMobile.originX,
+      originY: defaultValueMobile.originY,
+      translateX: defaultValueMobile.translateX,
+      translateY: defaultValueMobile.translateY,
     });
   }
 };
@@ -151,6 +187,27 @@ const minusScale = () => {
   }
 };
 
+// Fungsi untuk menambahkan nilai scale, translateX, dan translateY
+const minusScaleMobile = () => {
+  if (clickCount.value > 0) {
+    clickCount.value--; // Increment click count
+
+    // Update defaultValue dengan menambah scale, translateX, dan translateY
+    defaultValueMobile.scale -= 0.1;
+    defaultValueMobile.translateX -= 20;
+    defaultValueMobile.translateY -= 20;
+
+    // Terapkan perubahan pada zoomer
+    zoomerMobile.value?.setData({
+      scale: defaultValueMobile.scale,
+      originX: defaultValueMobile.originX,
+      originY: defaultValueMobile.originY,
+      translateX: defaultValueMobile.translateX,
+      translateY: defaultValueMobile.translateY,
+    });
+  }
+};
+
 const maxDefaultScale = () => {
   // Mengatur ulang click count
   clickCount.value = 2;
@@ -161,6 +218,18 @@ const maxDefaultScale = () => {
 
   // Mengembalikan zoom ke nilai default
   zoomer.value?.setData(defaultValue); 
+}
+
+const maxDefaultScaleMobile = () => {
+  // Mengatur ulang click count
+  clickCount.value = 6;
+  // Mengatur nilai default kembali (untuk skala, translate, dll)
+  defaultValueMobile.scale = 1.2;
+  defaultValueMobile.translateX = 40;
+  defaultValueMobile.translateY = 40;
+
+  // Mengembalikan zoom ke nilai default
+  zoomerMobile.value?.setData(defaultValueMobile); 
 }
 
 // Fungsi untuk reset zoom dan klik count
@@ -176,9 +245,24 @@ const reset = () => {
   zoomer.value?.setData(defaultValue);
 };
 
+// Fungsi untuk reset zoom dan klik count
+const reset_mobile = () => {
+  // Mengatur ulang click count
+  clickCount.value = 0;
+  // Mengatur nilai default kembali (untuk skala, translate, dll)
+  defaultValueMobile.scale = 0.6;
+  defaultValueMobile.translateX = -90;
+  defaultValueMobile.translateY = -158;
+
+  // Mengembalikan zoom ke nilai default
+  zoomerMobile.value?.setData(defaultValueMobile);
+};
+
 // Inisialisasi default zoom saat komponen dimuat
 onMounted(() => {
+  setDefaultZoom();
   zoomer.value?.setData(defaultValue);
+  zoomerMobile.value?.setData(defaultValueMobile);
 });
 
 
@@ -243,10 +327,15 @@ const handleCopyImage = async () => {
   });
 };
 
+const centralize_mobile = () => {
+   reset_mobile();
+}
+
 </script>
   
 <template>
-    <div>
+    <!-- Versi Desktop -->
+    <div class="hidden sm:block">
       <!-- Modal Overlay and Content with transitions -->
       <div 
         class="fixed inset-0 flex justify-center items-center z-30 transition-opacity duration-300 ease-in-out"
@@ -467,6 +556,150 @@ const handleCopyImage = async () => {
             
          </div> 
       </div>
+    </div>
+    <!-- Versi Mobile -->
+    <div class="block sm:hidden">
+        <div>
+               <div class="bg-white flex justify-between items-center pr-4">
+                  <div class="flex justify-normal">
+                     <TabBottomComp :is-active="isActive" :text="'Text'" @activated="isActive = 'Text'" :icon="TextIcon" class="text-sm font-semibold"/>
+                     <TabBottomComp :is-active="isActive" :text="'Image'" @activated="isActive = 'Image'" :icon="ImageIcon" class="text-sm font-semibold"/>
+                  </div>
+                  <div @click="$emit('close', props.index)">
+                     <component :is="CrossIcon" fill="#808080" class="w-4 h-4" />
+                  </div>
+               </div>
+               <div>
+                     <div ref="textToCopy" v-if="isActive === 'Text'" class="bg-gray-100 p-3 h-[1000px] max-h-[300px] rounded-bl-lg">
+                           <div>
+                              {{ hotelStore.propertyHotel?.name}}
+                           </div>
+                           <div v-if="isHotelReviews">
+                              Excellent ({{ hotelStore.propertyHotel?.catalog?.review_rating }} of 100) - {{hotelStore.propertyHotel?.catalog?.review_count }} review<span v-if="hotelStore.propertyHotel?.catalog?.review_count > 1">s</span>
+                           </div>
+                           <div>
+                              {{ formatDateRange(hotelStore.checkin, hotelStore.checkout) }} - {{ calculateDaysBetweenDates(hotelStore.checkin, hotelStore.checkout) }} nights
+                           </div>
+                           <div>
+                              &nbsp;
+                           </div>
+                           <div>
+                              {{ hotelStore.propertyDetailHotel?.offers[props.index]?.room_name }}
+                           </div>
+                           <div v-if="isRoomInfo">
+                              {{ hotelStore.propertyDetailHotel?.offers[props.index]?.room_bed_groups }}, {{ hotelStore.propertyDetailHotel?.offers[props.index]?.room_size_sqm }} m2
+                           </div>
+                           <div>
+                              {{  hotelStore.propertyDetailHotel?.offers[props.index]?.meal_plan_description }} - {{  hotelStore.propertyDetailHotel?.offers[props.index]?.cancel_policy_description }}
+                           </div>
+                           <div>
+                              {{ formatRupiah(hotelStore.propertyDetailHotel?.offers[props.index]?.rate_nightly) }} / night
+                           </div>
+                           <div v-if="isTotalPrice">
+                              Total - {{ formatRupiah(hotelStore.propertyDetailHotel?.offers[props.index]?.price_total)}} ({{ hotelStore.number_of_room }} room<span v-if="hotelStore.number_of_room > 1">s</span>, {{ calculateDaysBetweenDates(hotelStore.checkin, hotelStore.checkout) }} nights)
+                           </div>
+                           <div>
+                              &nbsp;
+                           </div>
+                           <div>
+                              *Price is subject to change without prior notice
+                           </div>
+                     </div>
+                     <div v-if="isActive === 'Image'" class="bg-gray-100 max-h-[300px] h-full relative">
+                           <PinchScrollZoom
+                              ref="zoomerMobile"
+                              :within="false"
+                              :centered="true"
+                              :key-controls="PinchScrollZoomDefaultControls"
+                              :draggable="true"
+                              :width="330"
+                              :height="250"
+                              :min-scale="minScaleMobile"
+                              :max-scale="maxScaleMobile"
+                              :content-width="0"
+                              :content-height="0"
+                              :wheel-velocity="0"
+                              >  
+                                 <div class="m-4 p-3 bg-white">
+                                    <div class="text-sm">
+                                       <TitleWithStarComp/>
+                                    </div>
+                                    
+                                    <div class="text-xs" v-if="isHotelReviews">
+                                       <ValueReputationReviewComp :percentage="hotelStore.propertyHotel.catalog?.review_rating" :size="25"/>
+                                    </div>
+                                    
+                                    <div class="mb-1 text-xs">
+                                       <span class="font-semibold mr-2">{{ formatDateRange(hotelStore.checkin, hotelStore.checkout) }}</span><span class="text-gray-500">- {{ calculateDaysBetweenDates(hotelStore.checkin, hotelStore.checkout) }} nights</span>
+                                    </div>
+                                    <img :src="hotelStore.propertyHotel?.catalog?.hero_image_url?.lg" width="360" height="490" class="w-[360px] h-[170px] rounded-md mb-1" />
+                                    <div class="mb-1 text-sm font-semibold">
+                                       {{ hotelStore.propertyDetailHotel?.offers[props.index]?.room_name }}
+                                    </div>
+                                    <div class="text-xs mb-1" v-if="isRoomInfo">
+                                       <InfoBedAndSizeComp 
+                                       :room_bed_groups="hotelStore.propertyDetailHotel?.offers[props.index]?.room_bed_groups" 
+                                       :room_size_sqm="hotelStore.propertyDetailHotel?.offers[props.index]?.room_size_sqm"/>
+                                    </div>
+                                    <div class="text-xs mb-1">
+                                       <DateCancellationComp :cancel_policy_description="hotelStore.propertyDetailHotel?.offers[props.index]?.cancel_policy_description"/>
+                                    </div>
+                                    <div class="text-sm">
+                                       <PricePerNightComp :rate_nightly="formatRupiah(hotelStore.propertyDetailHotel?.offers[props.index]?.rate_nightly)"/>
+                                    </div>
+                                    <div class="text-xs text-gray-500" v-if="isTotalPrice">
+                                       Total - {{ formatRupiah(hotelStore.propertyDetailHotel?.offers[props.index]?.price_total)}} ({{ hotelStore.number_of_room }} room<span v-if="hotelStore.number_of_room > 1">s</span>, {{ calculateDaysBetweenDates(hotelStore.checkin, hotelStore.checkout) }} nights)
+                                    </div>
+                                    <div>
+                                       &nbsp;
+                                    </div>
+                                    <div class="text-xs text-gray-500">
+                                       *Price is subject to change without prior notice
+                                    </div>
+                                 </div>
+                                 
+                              </PinchScrollZoom>
+                              <div class="absolute bottom-0.5 right-3 flex justify-normal p-1">
+                                 <div @click="centralize_mobile()" class="bg-white rounded-l border-gray border">
+                                    <component :is="ZoomInIcon" fill="'#000000'" class="w-6 h-6 m-1"/>
+                                 </div>
+                                 <div class="bg-white border-gray border-r border-t border-b" @click="minusScaleMobile">
+                                    <component :is="ZoomInControlIcon" fill="'#000000'" class="w-6 h-6 m-1"/>
+                                 </div>
+                                 <div class="bg-white border-gray border-r border-t border-b" @click="addScaleMobile">
+                                    <component :is="ZoomOutControlIcon" fill="'#000000'" class="w-6 h-6 m-1"/>
+                                 </div>
+                                 <div class="bg-white rounded-r border-gray border-r border-t border-b" @click="maxDefaultScaleMobile">
+                                    <component :is="ZoomOutIcon" fill="'#000000'" class="w-6 h-6 m-1"/>
+                                 </div>
+                              </div>
+                     </div>
+               </div>
+               <div class="bg-white">
+                        <div class="bg-white rounded-tr-xl">
+                           <ConfigDescriptionHotelComp :isCondition="isActiveAddress" settingName="Address"
+                           @click="isActiveAddress = !isActiveAddress"/>
+                           <ConfigDescriptionHotelComp :isCondition="isHotelReviews" settingName="Hotel reviews" @click="isHotelReviews = !isHotelReviews"/>
+                           <ConfigDescriptionHotelComp :isCondition="isRoomInfo" settingName="Room info (bed type, room size, view)"
+                           @click="isRoomInfo = !isRoomInfo"/>
+                           <ConfigDescriptionHotelComp :isCondition="isTotalPrice" settingName="Total Price"
+                           @click="isTotalPrice = !isTotalPrice"/>
+                        </div>
+               </div>
+               <div class="bg-white">
+                  <div class="py-8 flex justify-center border-t border-gray-300 w-full">
+                       <div class="border border-blue-500 flex justify-normal items-center hover:bg-blue-100 py-1 px-4 ml-2 rounded-md" @click="copyToClipboard">
+                           <div><component :is="CopyPasteIcon" fill="#2563eb" class="w-4 h-4"/></div>
+                           <div class="text-blue-500 text-sm">Copy as Text</div>
+                       </div>
+                       <div class="border border-blue-500 flex justify-normal items-center hover:bg-blue-100 py-2 px-4 mx-2 rounded-md" @click="isCopyImage = true">
+                           <div><component :is="CopyImageIcon" fill="#2563eb" class="w-4 h-4"/></div>
+                           <div class="text-blue-500">Copy as Image</div>
+                       </div>
+                   </div>
+               </div>
+        </div>
+        
     </div>
 </template>
 <style scoped>
