@@ -1,27 +1,13 @@
-<script setup>
-import { defineProps, computed } from 'vue'
-useSeoMeta({
-  startHalf:'/icons/star-half.svg',
-  star:'/icons/star.svg',
-  starFilled:'/icons/star-filled.svg'
-})
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useHotelStore } from '~/stores/Hotel';
 
-// Menerima nilai rating sebagai prop
-const props = defineProps({
-  rating: {
-    type: Number,
-    required: true,
-  }
-})
+const hotelStore = useHotelStore();
 
 // Menghitung jumlah bintang penuh
-const fullStars = computed(() => Math.floor(props.rating))
-
-// Menentukan apakah ada bintang setengah
-const halfStar = computed(() => props.rating % 1 >= 0.3)
-
-// Menghitung jumlah bintang kosong
-const emptyStars = computed(() => 5 - fullStars.value - (halfStar.value ? 1 : 0))
+const fullStars = computed(() => Math.floor(hotelStore.propertyHotel?.catalog?.star_rating ?? 0));
+const halfStar = computed(() => hotelStore.propertyHotel?.catalog?.star_rating % 1 >= 0.3);
+const emptyStars = computed(() => 5 - fullStars.value - (halfStar.value ? 1 : 0));
 </script>
 
 <template>

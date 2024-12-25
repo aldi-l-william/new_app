@@ -62,7 +62,7 @@ const clearValue = () => {
   align-items: center;
   width: 200px;
   max-width:200px;
-  margin: 20px 4px;
+  margin: 20px 8px 10px;
 }
 
 /* Input */

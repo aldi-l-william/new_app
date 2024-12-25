@@ -1,6 +1,32 @@
 <script setup lang="ts">
   import { CarouselImageComp } from '#components';
   import CrossIcon from '~/public/icons/cross.svg';
+  import { defineProps } from 'vue';
+  import BedIcon from '~/public/icons/bed.svg';
+  import BoxIcon from '~/public/icons/box.svg';
+  import BathIcon from '~/public/icons/bathroom.svg';
+  import EnterIcon from '~/public/icons/entertainment.svg';
+  import FoodIcon from '~/public/icons/foodanddrink.svg';
+  import InternetIcon from '~/public/icons/internet.svg';
+  import MoreIcon from '~/public/icons/more.svg';
+  import { useHotelStore } from '~/stores/Hotel';
+
+  const hotelStore = useHotelStore();
+
+  const props = defineProps({
+    index:{
+      type:Number,
+      required:true
+    }
+  })
+
+  const filteredAmenities:any = computed(() =>
+    Object.values(hotelStore.propertyHotel?.general_info?.amenities).filter((amenity:any) => amenity.categories)
+  );
+
+  const capitalizeFirstLetter = (text:string) => {
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  }
   
 </script>
   
@@ -16,85 +42,39 @@
           <div class="grid grid-cols-11 bg-black rounded-xl">
               <div class="col-span-6 my-20">
                 <div>
-                  <CarouselImageComp/>
+                  <CarouselImageComp :index="props.index"/>
                 </div>
               </div>
               <div class="col-span-5">
                    <div class="flex justify-between items-center bg-white rounded-tr-xl">
                        <div class="p-3 font-semibold">Room Details</div>
                        <div class="p-3">
-                           <component :is="CrossIcon" :fill="'#007aff'" class="w-8 h-8 p-1 rounded-full hover:bg-blue-100" @click="$emit('close')"/>
+                        <component :is="CrossIcon" :fill="'#007aff'" class="w-8 h-8 p-1 rounded-full hover:bg-blue-100" @click="$emit('close')"/>
                        </div>
                    </div>
                    <div class="bg-white h-[500px] overflow-y-auto border border-gray-300 p-4 rounded-br-xl">
-Fairmont, Room, 2 Double Beds
+                         <div class=" font-semibold">{{ hotelStore.propertyDetailHotel?.offers[props.index]?.room_name }}</div>
 
- 2 Double Beds
- 49 m2
-Room Amenities
+                         <div class=" flex justify-normal items-center mb-4">
+                           <div class="mr-4"><component :is="BedIcon" fill="#808080" class="w-4 h-4" /></div> 
+                           <div class="mr-4">{{ hotelStore.propertyDetailHotel?.offers[props.index]?.room_bed_groups }}</div>
+                           <div class="mr-4"><component :is="BoxIcon" fill="#808080" class="w-4 h-4" /></div>
+                           <div>{{ hotelStore.propertyDetailHotel?.offers[props.index]?.room_size_sqm }}m2</div>
+                         </div>
 
-Bedroom
+                         <div class="my-4 font-semibold">Room Amenities</div>
+                         <div v-for="(amenity, index) in filteredAmenities" :key="index+'amenities'">
+                            <div class="flex justify-normal items-center">
+                              <div>{{ capitalizeFirstLetter(amenity.categories.join(", ")) }}</div>
+                            </div>
+                            <div>
+                              <ul class="list-disc pl-6">
+                                <li class="pr-4 text-sm text-gray-500">{{ amenity.name }}</li>
+                              </ul>
+                            </div>
+                         </div>
+                         
 
-Air conditioning
-Premium bedding
-Free cribs/infant beds
-Bedsheets provided
-Number of beds - 1
-Wardrobe or closet
-Change of bed sheets (on request)
-Bathroom
-
-Private bathroom
-Hair dryer
-Designer toiletries
-Bidet
-Separate bathtub and shower
-Deep soaking bathtub
-Rainfall showerhead
-Towels provided
-Change of towels (on request)
-Entertainment
-
-Television
-Cable/satellite TV service
-Pay movies
-Premium TV channels
-Digital TV service
-Flat-panel TV
-iPod docking station
-Food and Drink
-
-Minibar
-Coffee/tea maker
-Room service (24 hours)
-Free bottled water
-Full-sized refrigerator/freezer
-Internet
-
-Dial-up internet access
-High-speed internet access
-Free WiFi
-Free wired internet
-More
-
-Alarm clock
-Free newspaper
-Daily housekeeping
-Phone
-Bathrobes
-Iron/ironing board
-In-room safe
-Desk
-Separate sitting area
-Soundproofed rooms
-Turndown service
-Slippers
-Smoking and Non-Smoking
-Housekeeping on request
-Laptop-friendly workspace
-Eco-friendly cleaning products provided
-Desk chair
-Energy-saving features in guest rooms
                    </div>
               </div>
           </div>

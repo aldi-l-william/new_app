@@ -3,7 +3,7 @@ import svgLoader from 'vite-svg-loader'
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.css','tailwindcss/tailwind.css'],
   components: true,
 
   vite: {
@@ -17,5 +17,10 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['vue3-carousel-nuxt'],
+  modules: [
+    'vue3-carousel-nuxt',
+    '@samk-dev/nuxt-vcalendar',
+    '@pinia/nuxt',
+  ],
+  
 })

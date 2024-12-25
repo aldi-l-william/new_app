@@ -1,44 +1,54 @@
 <script setup lang="ts">
-import LocationIcon from '~/public/icons/location.svg';
-import CrossCircleIcon from '~/public/icons/cross-circle.svg';
+import PeopleIcon from '~/public/icons/peoples.svg'
 
 // Reactive state for input focus
-import { ref } from 'vue';
-const inputValue = ref('');
+import { ref, defineProps, defineEmits } from 'vue';
 const isFocused = ref(false);
+
+const props = defineProps({
+  modelValue:{
+    type:String,
+    default:''
+  }
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+const updateValue = (event: Event) => {
+  const input = (event.target as HTMLInputElement).value;
+  emit('update:modelValue', input);
+}
+
+// Function to clear value when clicking the clear icon
+const clearValue = () => {
+  emit('update:modelValue', ''); // Emit empty string to clear the value
+  isFocused.value = false; // Reset the focus state
+}
 </script>
 
 <template>
   <div class="input-container">
     <!-- Ikon Kiri -->
     <span class="icon left-icon">
-      <component :is="LocationIcon" :fill="isFocused ? '#1a73e8':'#757575'" class="w-6 h-6" />
+      <component :is="PeopleIcon" :fill="isFocused ? '#1a73e8':'#757575'" class="w-6 h-6" />
     </span>
 
-    <!-- Input -->
-    <input
-      v-model="inputValue"
+     <!-- Input -->
+     <input
+      :value="modelValue"
       type="text"
+      @input="updateValue"
       @focus="isFocused = true"
-      @blur="isFocused = inputValue !== ''"
+      @blur="isFocused = modelValue !== ''"
     />
 
     <!-- Label (Floating) -->
     <label
       class="floating-label"
-      :class="{ active: isFocused || inputValue }"
+      :class="{ active: isFocused || modelValue}"
     >
-      Where are you going?
+      Guest & Rooms
     </label>
-
-    <!-- Ikon Kanan -->
-    <span
-      v-if="inputValue"
-      class="icon right-icon clickable"
-      @click="inputValue = ''; isFocused = false"
-    >
-      <component :is="CrossCircleIcon" :fill="isFocused ? '#1a73e8':'#757575'" class="w-6 h-6" />
-    </span>
   </div>
 </template>
 
@@ -49,14 +59,14 @@ const isFocused = ref(false);
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 400px;
-  margin: 20px auto;
+  max-width: 500px;
+  margin: 20px 0;
 }
 
 /* Input */
 .input-container input {
   width: 100%;
-  padding: 16px 80px; /* Ruang untuk ikon kiri dan kanan */
+  padding: 16px 40px; /* Ruang untuk ikon kiri dan kanan */
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -94,7 +104,6 @@ const isFocused = ref(false);
 .icon {
   position: absolute;
   font-size: 18px;
-  pointer-events: none;
 }
 
 .left-icon {

@@ -4,20 +4,21 @@
   import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
   import PreviousIcon from '~/public/icons/previous.svg';
   import NextIcon from '~/public/icons/next.svg';
+  import { updateLoadingText, interval, loadingText } from '~/utils/animations/Dropdown';
+  import { useHotelStore } from '~/stores/Hotel';
+  
+  const props = defineProps({
+     index:{
+      type:Number,
+      required:true
+     }
+  })
+
+  const hotelStore = useHotelStore();
 
   const isShowCarousel = ref(false);
   const isLoading = ref(true); 
-  const loadingText = ref("Loading");
-  // Fungsi untuk memperbarui titik-titik dalam "Loading..."
-  let interval: ReturnType<typeof setInterval> | null  = null;
-  const updateLoadingText = () => {
-    let dotsCount = 0;
-    interval = setInterval(() => {
-      dotsCount = (dotsCount + 1) % 4; // 0, 1, 2, 3 (mod 4, karena 3 titik)
-      loadingText.value = "Loading" + ".".repeat(dotsCount);
-    }, 500); // Update setiap 500ms
-  };
-
+  
   // Mulai update ketika komponen dimount
   onMounted(() => {
     updateLoadingText();
@@ -68,10 +69,9 @@ const prev = () => carouselRef.value.prev();
       <div class="text-white text-xl">{{ loadingText }}</div>
     </div>
     <!-- Carousel hanya muncul jika isShowCarousel bernilai true -->
-    <carousel ref="carouselRef" v-bind="config" v-if="isShowCarousel" v-model="currentSlide">
-      
-      <slide v-for="slide in slides" :key="slide">
-        <img src="https://i.travelapi.com/lodging/10000000/9300000/9296600/9296574/5408c18a_z.jpg"/>
+    <carousel ref="carouselRef" v-bind="config" v-else="isShowCarousel" v-model="currentSlide"> 
+      <slide v-for="slide in hotelStore.propertyDetailHotel?.offers[props.index]?.room_images" :key="slide">
+        <img :src="slide.size_sm" class="w-full max-h-[370px]"/>
       </slide>
     </carousel>
     <div class="absolute left-0 top-0 right-[45%] bottom-0 flex justify-center items-center z-50">
@@ -86,6 +86,6 @@ const prev = () => carouselRef.value.prev();
     </div>
     <!-- Indikator urutan gambar (1/5, 2/5, dst) -->
     <div class="absolute bottom-1 left-[50%] transform -translate-x-1/2 font-semibold bg-gray-900 px-2 py-1 rounded-xl">
-      <span class="text-white">{{ currentSlide + 1 }} / {{ slides.length }}</span>
+      <span class="text-white">{{ currentSlide + 1 }} / {{ hotelStore.propertyDetailHotel?.offers[props.index]?.room_images.length }}</span>
     </div>
 </template>

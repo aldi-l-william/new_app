@@ -16,7 +16,7 @@ const props = defineProps({
 
 </script>
 <template>
-    <div class="flex justify-normal items-center p-4 " :class="props.isActive === props.text ? 'border-b-2 border-blue-500':''" @click="$emit('activated')">
+    <div class="flex justify-normal items-center py-3 px-4" :class="props.isActive === props.text ? 'border-b-2 border-blue-500':''" @click="$emit('activated')">
         <div class="mr-1">
             <component :is="props.icon" :fill="props.isActive === props.text ? '#2563eb': '#808080'"/>
         </div>

@@ -1,4 +1,10 @@
 {
-  // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": "./.nuxt/tsconfig.json"
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "module": "ESNext"
+  }
 }
+

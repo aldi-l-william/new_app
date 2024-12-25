@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { AppSearchDetail } from '#components';
-useSeoMeta({
-  ogImage: '/icons/search.svg'
-})
+import { inject } from 'vue';
+import type { HotelCollection } from '~/interface/Hotel';
+import { useRoute } from 'vue-router';
+import { formatMonth } from '~/utils/global/queryUrl';
+
+import { useHotelStore } from '~/stores/Hotel';
+
+const hotelStore = useHotelStore();
 
 const isShowedSearchDetail = ref(false);
 const isScrolled = ref(false);
@@ -59,18 +64,35 @@ const handleBeforeLeave = (el: any):void => {
   el.style.transform = "translateY(-20px)"; // Geser elemen ke bawah saat hilang
 };
 
+const route = useRoute();
+const checkout = ref<string | string[]>(route.query.checkout as string);
+const checkin = ref<string | string[]>(route.query.checkin as string);
+// Format tanggal menjadi "1 - 24 Des 2024"
+const formattedDate = computed(() => {
+  if (checkin && checkout) {
+    const checkinDate = new Date(checkin.value as string);
+    const checkoutDate = new Date(checkout.value as string);
+    const dayCheckin = checkinDate.getDate();
+    const dayCheckout = checkoutDate.getDate();
+    const month = formatMonth(checkinDate.getMonth());
+    const year = checkinDate.getFullYear();
+    return `${dayCheckin} - ${dayCheckout} ${month} ${year}`;
+  }
+  return '';
+});
+
 
 </script>
 <template>
-            <div class="sticky top-0 bg-white z-20" :class="isScrolled ? 'shadow':''" @click="handleOutsideSearchDetailClick">
-                <div class="max-1032-container flex justify-between my-2 z-20  bg-white">
+            <div class="sticky top-0 bg-white z-20" :class="isScrolled ? 'shadow':''">
+                <div class="max-1032-container flex justify-between z-20  bg-white">
                     <div class="py-2">
                         <img src="https://project-exterior-technical-test-app.up.railway.app/img/logo.png" alt="Wisata App" class="w-[180px]"/>
                     </div>
                     <div class="py-2" >
                         <button @click.stop="handleShowedSearchDetailClick" class="px-4 py-2 flex justify-center items-center bg-gray-100 hover:bg-gray-200 rounded w-[590px] max-w-screen-lg">
                         <img src="/icons/search.svg" alt="icon" class="w-[15px] mx-2"/>
-                        <span class="mx-1">G7 Hotel </span> <span class="mx-1">-</span> <span class="mx-2">4 - 8 Mar 2025</span>
+                        <span class="mx-1">{{ hotelStore.propertyHotel?.name || 'No Data' }} </span> <span class="mx-1">-</span> <span class="mx-2">{{ formattedDate }}</span>
                         </button>
                     </div>
                     <div class="py-2">
@@ -89,8 +111,8 @@ const handleBeforeLeave = (el: any):void => {
                 </transition>
             </div>
             
-            <div class="w-screen h-screen absolute z-10 " :class="isShowedSearchDetail ? 'bg-opacity-40 bg-black visible':'invisible'" @click="handleOutsideSearchDetailClick">
+            <!-- <div class="w-screen h-screen fixed z-10 " :class="isShowedSearchDetail ? 'bg-opacity-40 bg-black visible':'invisible'" @click="handleOutsideSearchDetailClick">
 
-            </div>
+            </div> -->
 
 </template>
