@@ -303,7 +303,7 @@ import { position } from 'html2canvas/dist/types/css/property-descriptors/positi
                             @screenshot="handleShowPopUpScreenshotAndCopy('Image', index)" 
                             @seeActions="toggleModal(index)"/>
                             <ModalPopUpMiniScreenshotAndCopyComp v-if="modals[index]"
-                            :index="index" @copy="handleShowPopUpScreenshotAndCopy('Text', index)" @screenshot="handleShowPopUpScreenshotAndCopy('Image', index)" class="absolute right-6"/>      
+                            :index="index" @copy="handleShowPopUpScreenshotAndCopy('Text', index)" @screenshot="handleShowPopUpScreenshotAndCopy('Image', index)" class="absolute right-6 top-12"/>      
                         </div>
                     
                 </div>
@@ -321,7 +321,7 @@ import { position } from 'html2canvas/dist/types/css/property-descriptors/positi
     <!-- Catalog Versi Mobile -->
     <div class="block sm:hidden bg-gray-200 py-1">
         <div class="grid grid-cols-12 gap-4 my-6 bg-white" v-for="(item, index) in hotelStore.propertyDetailHotel?.offers" :key="index+'hoteldescription'">        
-                <div class="col-span-12 border border-gray rounded relative">
+                <div class="col-span-12 rounded relative">
                         <div class="border-gray border-b py-4" ref="trackedDiv" :class="isFixed[index] ? 'sticky bg-white top-[59px] z-10':'relative'">
                             <RoomTitleComp 
                             @click="handleShowPopUp" 
@@ -332,7 +332,7 @@ import { position } from 'html2canvas/dist/types/css/property-descriptors/positi
                         <div>
                             <RoomImageComp @click="handleShowPopUp(index)" :room_images="item.room_images"/> 
                         </div>
-                        <div class="px-4 py-4 relative border-b"> 
+                        <div class="px-4 py-4 relative"> 
                             <RoomBodyComp
                             :index="index" 
                             :strikethrough_rate_nightly="formatRupiah(item.pricing_data.strikethrough_rate_nightly)" 
